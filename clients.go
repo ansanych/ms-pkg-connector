@@ -3,6 +3,7 @@ package connector
 import (
 	"context"
 	"errors"
+	"log"
 	"strconv"
 	"sync"
 
@@ -72,13 +73,16 @@ func (p *ClientsPool) BuildClients(ctx context.Context, config *config.Config) e
 }
 
 func (p *ClientsPool) GetClient(ctx context.Context, service string) (*Client, error) {
+
+	log.Println(service)
+
 	client, ok := p.Pool[service]
 
 	if !ok {
 		return nil, errors.New("not found client")
 	}
 
-	client.Mu.Lock()
+	//client.Mu.Lock()
 
 	return client, nil
 }
