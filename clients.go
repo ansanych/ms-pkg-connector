@@ -14,12 +14,12 @@ import (
 )
 
 type ClientsPool struct {
-	pool map[string]*Client
+	Pool map[string]*Client
 }
 
 type Client struct {
-	mu   sync.Mutex
-	conn *grpc.ClientConn
+	Mu   sync.Mutex
+	Conn *grpc.ClientConn
 }
 
 var Pool *ClientsPool
@@ -52,7 +52,7 @@ func (p *ClientsPool) BuildClients(ctx context.Context, config *config.Config) e
 				}
 
 				client := &Client{
-					conn: conn,
+					Conn: conn,
 				}
 
 				clientsPool[c] = client
@@ -66,19 +66,19 @@ func (p *ClientsPool) BuildClients(ctx context.Context, config *config.Config) e
 		}
 	}
 
-	p.pool = clientsPool
+	p.Pool = clientsPool
 
 	return nil
 }
 
 func (p *ClientsPool) GetClient(ctx context.Context, service string) (*Client, error) {
-	client, ok := p.pool[service]
+	client, ok := p.Pool[service]
 
 	if !ok {
 		return nil, errors.New("not found client")
 	}
 
-	client.mu.Lock()
+	client.Mu.Lock()
 
 	return client, nil
 }
