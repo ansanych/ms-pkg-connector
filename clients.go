@@ -18,9 +18,8 @@ type ClientsPool struct {
 }
 
 type Client struct {
-	mu    sync.Mutex
-	conn  *grpc.ClientConn
-	inUse bool
+	mu   sync.Mutex
+	conn *grpc.ClientConn
 }
 
 var Pool *ClientsPool
@@ -53,8 +52,7 @@ func (p *ClientsPool) BuildClients(ctx context.Context, config *config.Config) e
 				}
 
 				client := &Client{
-					conn:  conn,
-					inUse: false,
+					conn: conn,
 				}
 
 				clientsPool[c] = client
@@ -71,4 +69,16 @@ func (p *ClientsPool) BuildClients(ctx context.Context, config *config.Config) e
 	p.pool = clientsPool
 
 	return nil
+}
+
+func (p *ClientsPool) GetClient(ctx context.Context, service string) (*Client, error) {
+	client, ok := p.pool[service]
+
+	if !ok {
+		return nil, errors.New("not found client")
+	}
+
+	client.mu.Lock()
+
+	return client, nil
 }
