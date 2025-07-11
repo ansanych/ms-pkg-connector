@@ -7,7 +7,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 
-	cerasus "github.com/ansanych/cerasus-proto/api_v2"
+	cerasus "github.com/ansanych/cerasus-proto/api_v3"
 	config "github.com/ansanych/ms-pkg-config"
 )
 

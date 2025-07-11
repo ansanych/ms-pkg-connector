@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"sync"
 
-	cerasus "github.com/ansanych/cerasus-proto/api_v2"
+	cerasus_proto "github.com/ansanych/cerasus-proto/api_v3"
 	config "github.com/ansanych/ms-pkg-config"
 
 	"google.golang.org/grpc"
@@ -31,7 +31,7 @@ func InitPool(ctx context.Context, config *config.Config) error {
 }
 
 func (p *ClientsPool) BuildClients(ctx context.Context, config *config.Config) error {
-	list, err := connectorClient.GetClientsList(ctx, &cerasus.Auth{})
+	list, err := connectorClient.GetClientsList(ctx, &cerasus_proto.Auth{})
 
 	if err != nil {
 		return err
