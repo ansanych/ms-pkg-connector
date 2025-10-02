@@ -38,6 +38,8 @@ func (p *ClientsPool) BuildClients(ctx context.Context, config *config.Config) e
 		return err
 	}
 
+	log.Println(list, err)
+
 	clientsPool := make(map[string]*Client, len(config.Clients))
 
 	for _, c := range config.Clients {
@@ -48,7 +50,6 @@ func (p *ClientsPool) BuildClients(ctx context.Context, config *config.Config) e
 			if c == l.Service {
 				conn, err := grpc.NewClient(l.Host+":"+strconv.FormatUint(uint64(l.Port), 10), grpc.WithTransportCredentials(insecure.NewCredentials()))
 
-				log.Println("Conn", err)
 				if err != nil {
 					return err
 				}
