@@ -3,6 +3,7 @@ package connector
 import (
 	"context"
 	"errors"
+	"log"
 	"strconv"
 	"sync"
 
@@ -47,6 +48,7 @@ func (p *ClientsPool) BuildClients(ctx context.Context, config *config.Config) e
 			if c == l.Service {
 				conn, err := grpc.NewClient(l.Host+":"+strconv.FormatUint(uint64(l.Port), 10), grpc.WithTransportCredentials(insecure.NewCredentials()))
 
+				log.Println("Conn", err)
 				if err != nil {
 					return err
 				}
@@ -62,7 +64,7 @@ func (p *ClientsPool) BuildClients(ctx context.Context, config *config.Config) e
 		}
 
 		if !find {
-			return errors.New(c + "not found client in connector")
+			return errors.New(c + " not found client in connector. Error")
 		}
 	}
 
