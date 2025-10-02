@@ -3,7 +3,6 @@ package connector
 import (
 	"context"
 	"errors"
-	"log"
 	"strconv"
 	"sync"
 
@@ -37,8 +36,6 @@ func (p *ClientsPool) BuildClients(ctx context.Context, config *config.Config) e
 	if err != nil {
 		return err
 	}
-
-	log.Println(list, err)
 
 	clientsPool := make(map[string]*Client, len(config.Clients))
 
